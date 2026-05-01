@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Memory Coffee Machine — Manuel Utilisateur</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --black:#0d0d0d;
+  --white:#ffffff;
+  --gray-100:#f5f5f3;
+  --gray-200:#e8e8e4;
+  --gray-400:#b0b0aa;
+  --gray-600:#6a6a66;
+  --gray-800:#2c2c2a;
+  --blue:#1a6fc4;
+  --blue-light:#e6f1fb;
+  --blue-mid:#378add;
+  --red:#e24b4a;
+  --red-light:#fcebeb;
+  --amber:#ba7517;
+  --amber-light:#faeeda;
+  font-size:16px;
+}
+body{font-family:'Segoe UI',Arial,sans-serif;color:var(--black);background:#fff;line-height:1.7;}
+
+/* ── SIDEBAR NAV ── */
+.sidebar{
+  position:fixed;top:0;left:0;width:220px;height:100vh;
+  background:var(--black);padding:2rem 0;
+  display:flex;flex-direction:column;z-index:100;overflow-y:auto;
+}
+.sidebar-logo{
+  padding:0 1.5rem 2rem;border-bottom:1px solid #1e1e1e;
+}
+.sidebar-logo .brand{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:.3rem;}
+.sidebar-logo .model{font-size:.9rem;font-weight:500;color:#fff;}
+.sidebar nav{padding:1rem 0;}
+.sidebar nav a{
+  display:block;padding:.55rem 1.5rem;
+  font-size:.78rem;color:var(--gray-400);text-decoration:none;
+  letter-spacing:.04em;border-left:2px solid transparent;
+  transition:color .15s,border-color .15s;
+}
+.sidebar nav a:hover,.sidebar nav a.active{color:#fff;border-left-color:var(--blue-mid);}
+.sidebar-footer{margin-top:auto;padding:1.5rem;font-size:.65rem;color:#333;letter-spacing:.06em;}
+
+/* ── MAIN ── */
+.main{margin-left:220px;}
+
+/* ── COVER ── */
+.cover{
+  background:var(--black);color:#fff;
+  min-height:100vh;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;text-align:center;
+  padding:4rem 3rem;position:relative;overflow:hidden;
+}
+.cover-img{
+  width:280px;height:280px;border-radius:50%;
+  object-fit:cover;object-position:center;
+  border:2px solid var(--blue);margin-bottom:3rem;
+  filter:grayscale(20%);
+}
+.cover-eyebrow{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--blue-mid);margin-bottom:1rem;}
+.cover h1{font-size:3rem;font-weight:300;letter-spacing:.1em;text-transform:uppercase;line-height:1.1;}
+.cover h1 strong{color:var(--blue-mid);font-weight:600;}
+.cover-meta{margin-top:1.5rem;font-size:.8rem;color:var(--gray-400);letter-spacing:.08em;}
+.cover-scroll{position:absolute;bottom:2.5rem;display:flex;flex-direction:column;align-items:center;gap:.5rem;color:var(--gray-600);font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;}
+.cover-scroll span{width:1px;height:40px;background:linear-gradient(to bottom,var(--blue-mid),transparent);}
+
+/* ── SECTION ── */
+.section{padding:5rem 5rem;border-bottom:1px solid var(--gray-200);}
+.section:last-of-type{border-bottom:none;}
+.section-label{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--blue);margin-bottom:.6rem;}
+.section-title{font-size:2rem;font-weight:300;margin-bottom:3rem;padding-bottom:1.5rem;border-bottom:1px solid var(--black);}
+
+/* ── PRESENTATION ── */
+.intro-cols{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start;margin-bottom:3rem;}
+.intro-text p{font-size:.95rem;line-height:1.8;color:var(--gray-800);margin-bottom:1rem;}
+.product-photo{width:100%;border-radius:4px;object-fit:cover;}
+
+/* schéma SVG */
+.schema-wrap{background:var(--gray-100);padding:2rem;border-radius:4px;margin-bottom:2rem;}
+.schema-wrap svg{width:100%;height:auto;}
+.schema-legend{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:.5rem;margin-top:1.5rem;}
+.schema-legend-item{display:flex;align-items:flex-start;gap:.7rem;font-size:.82rem;}
+.schema-legend-item .num{min-width:1.4rem;height:1.4rem;border-radius:50%;background:var(--blue);color:#fff;font-size:.65rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem;}
+.schema-legend-item p{line-height:1.5;color:var(--gray-800);}
+
+/* feature grid */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--gray-200);border:1px solid var(--gray-200);margin-bottom:2rem;}
+.feature-card{background:#fff;padding:1.2rem;display:flex;flex-direction:column;gap:.4rem;}
+.feature-card .flabel{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--blue);}
+.feature-card p{font-size:.82rem;color:var(--gray-600);line-height:1.5;}
+
+/* ── SAFETY ── */
+.safety-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--gray-200);border:1px solid var(--gray-200);margin-bottom:2rem;}
+.safety-item{background:#fff;padding:1rem 1.2rem;display:flex;align-items:flex-start;gap:.8rem;font-size:.88rem;line-height:1.5;}
+.safety-item svg{flex-shrink:0;margin-top:.15rem;}
+.s-red{border-left:3px solid var(--red);}
+.s-amber{border-left:3px solid var(--amber);}
+.s-blue{border-left:3px solid var(--blue);}
+.sub-h{font-size:.65rem;text-transform:uppercase;letter-spacing:.15em;color:var(--gray-600);margin:1.5rem 0 .8rem;}
+
+/* ── STEPS ── */
+.steps{counter-reset:step;margin-bottom:2rem;}
+.step{counter-increment:step;display:flex;gap:1.2rem;margin-bottom:1rem;align-items:flex-start;}
+.step::before{content:counter(step);min-width:2rem;height:2rem;border-radius:50%;background:var(--black);color:#fff;font-size:.75rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.15rem;}
+.step p{font-size:.92rem;line-height:1.65;padding-top:.2rem;}
+.step p strong{color:var(--blue);}
+
+/* ── BULLET LIST ── */
+.blist{list-style:none;margin-bottom:2rem;}
+.blist li{padding:.5rem 0 .5rem 1.4rem;position:relative;font-size:.92rem;border-bottom:1px solid var(--gray-100);}
+.blist li::before{content:'';position:absolute;left:0;top:1rem;width:5px;height:5px;border-radius:50%;background:var(--blue);}
+.blist li strong{color:var(--blue);}
+
+/* ── SETTINGS GRID ── */
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:2rem;}
+.setting-box{border:1px solid var(--gray-200);padding:1.2rem;border-radius:2px;}
+.setting-box .slabel{font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--gray-600);margin-bottom:.7rem;}
+.tags{display:flex;flex-wrap:wrap;gap:.4rem;}
+.tag{font-size:.75rem;padding:.22rem .7rem;border:1px solid var(--blue-mid);color:var(--blue);border-radius:2px;}
+.tag.default{background:var(--blue);color:#fff;border-color:var(--blue);}
+
+/* ── WARN / DANGER BOX ── */
+.wbox{background:var(--amber-light);border-left:4px solid var(--amber);padding:1rem 1.5rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.6;color:#633806;border-radius:0 4px 4px 0;}
+.dbox{background:var(--red-light);border-left:4px solid var(--red);padding:1rem 1.5rem;margin-bottom:1.5rem;font-size:.88rem;line-height:1.6;color:#501313;border-radius:0 4px 4px 0;}
+
+/* ── TROUBLESHOOT TABLE ── */
+.ttable{width:100%;border-collapse:collapse;margin-bottom:2rem;font-size:.88rem;}
+.ttable th{background:var(--black);color:#fff;text-align:left;padding:.75rem 1rem;font-weight:400;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;}
+.ttable td{padding:.8rem 1rem;border-bottom:1px solid var(--gray-100);vertical-align:top;}
+.ttable tr:hover td{background:var(--gray-100);}
+.ttable .prob{font-weight:500;}
+.ttable .sol{color:var(--gray-600);}
+
+/* ── CONTACT ── */
+.contact-card{background:var(--black);color:#fff;padding:2rem 2.5rem;border-radius:4px;margin-bottom:2rem;}
+.contact-card .cline{display:flex;gap:1rem;font-size:.88rem;padding:.5rem 0;border-bottom:1px solid #1e1e1e;align-items:baseline;}
+.contact-card .cline:last-child{border-bottom:none;}
+.contact-card .clbl{min-width:6rem;font-size:.65rem;text-transform:uppercase;letter-spacing:.12em;color:var(--blue-mid);}
+.contact-card a{color:#fff;}
+
+/* ── GALLERY ── */
+.gallery{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem;}
+.gallery img{width:100%;aspect-ratio:4/3;object-fit:cover;border-radius:4px;}
+
+/* ── FOOTER ── */
+footer{background:var(--black);color:#333;text-align:center;padding:2rem;font-size:.72rem;letter-spacing:.06em;}
+footer span{color:var(--blue-mid);}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .sidebar{display:none;}
+  .main{margin-left:0;}
+  .section{padding:3rem 1.5rem;}
+  .intro-cols{grid-template-columns:1fr;}
+  .safety-grid,.settings-grid{grid-template-columns:1fr;}
+  .gallery{grid-template-columns:1fr 1fr;}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <div class="brand">Electrolux Design Lab</div>
+    <div class="model">Memory Coffee Machine</div>
+  </div>
+  <nav>
+    <a href="#cover">Accueil</a>
+    <a href="#s0">Présentation</a>
+    <a href="#s1">Consignes de sécurité</a>
+    <a href="#s2">Installation</a>
+    <a href="#s3">Utilisation</a>
+    <a href="#s4">Programmation</a>
+    <a href="#s5">Entretien</a>
+    <a href="#s6">Dépannage</a>
+    <a href="#s7">Service après-vente</a>
+    <a href="#s8">Garantie</a>
+  </nav>
+  <div class="sidebar-footer">Manuel v1.0 &mdash; 2012</div>
+</aside>
+
+<div class="main">
+
+<!-- COVER -->
+<div class="cover" id="cover">
+  <img class="cover-img"
+    src="https://www.yankodesign.com/images/design_news/2012/10/13/memory_coffee.jpg"
+    alt="Memory Coffee Machine"
+    onerror="this.style.display='none'">
+  <p class="cover-eyebrow">Electrolux Design Lab &mdash; WenYao Cai, 2012</p>
+  <h1>Memory<br><strong>Coffee</strong> Machine</h1>
+  <p class="cover-meta">Manuel Utilisateur &mdash; Français</p>
+  <div class="cover-scroll"><span></span>Défiler</div>
+</div>
+
+<!-- 0. PRÉSENTATION -->
+<div class="section" id="s0">
+  <p class="section-label">Section 0</p>
+  <h2 class="section-title">Présentation du produit</h2>
+
+  <div class="intro-cols">
+    <div class="intro-text">
+      <p>La <strong>Memory Coffee Machine</strong> est une cafetière intelligente conçue par WenYao Cai pour l'Electrolux Design Lab en 2012. Finaliste du concours Electrolux Design Lab, elle se distingue par son approche biométrique unique : la machine mémorise les préférences de chaque utilisateur grâce à la reconnaissance de l'empreinte palmaire.</p>
+      <p>Un simple geste de la main suffit pour que la machine prépare automatiquement le café idéal — sans réglage manuel, sans erreur. Le panneau tactile circulaire supérieur sert à la fois d'interface de contrôle et de capteur d'identification.</p>
+    </div>
+    <img class="product-photo"
+      src="https://www.yankodesign.com/images/design_news/2012/10/13/memory_coffee2.jpg"
+      alt="Vue de la Memory Coffee Machine"
+      onerror="this.style.display='none'">
+  </div>
+
+  <!-- SCHÉMA NUMÉROTÉ -->
+  <div class="schema-wrap">
+    <svg viewBox="0 0 560 320" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma numéroté de la Memory Coffee Machine">
+      <title>Schéma de la Memory Coffee Machine</title>
+      <!-- Corps de la machine stylisé -->
+      <!-- Base -->
+      <ellipse cx="200" cy="285" rx="70" ry="16" fill="#1a1a1a"/>
+      <!-- Corps principal (col) -->
+      <path d="M148,285 Q140,220 155,180 Q165,150 200,140 Q235,150 245,180 Q260,220 252,285 Z" fill="#222"/>
+      <!-- Tête circulaire (panneau) -->
+      <ellipse cx="200" cy="135" rx="68" ry="18" fill="#1a1a1a"/>
+      <ellipse cx="200" cy="130" rx="65" ry="65" fill="#222" stroke="#378add" stroke-width="3"/>
+      <ellipse cx="200" cy="130" rx="52" ry="52" fill="#1a1a1a"/>
+      <!-- Anneau lumineux bleu -->
+      <ellipse cx="200" cy="130" rx="65" ry="65" fill="none" stroke="#378add" stroke-width="3" opacity=".8"/>
+      <!-- Bec verseur -->
+      <path d="M160,240 Q145,255 148,270 Q152,278 165,278" fill="none" stroke="#444" stroke-width="6" stroke-linecap="round"/>
+      <!-- Icône main sur panneau -->
+      <text x="200" y="126" text-anchor="middle" font-size="26" fill="#378add" opacity=".7">✋</text>
+      <!-- Tasse -->
+      <rect x="155" y="275" width="38" height="28" rx="3" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+      <path d="M193,283 Q203,283 203,290 Q203,297 193,297" fill="none" stroke="#ddd" stroke-width="2"/>
+      <!-- Vapeur -->
+      <path d="M168,272 Q165,263 168,256" fill="none" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" opacity=".6"/>
+      <path d="M174,272 Q171,261 174,254" fill="none" stroke="#bbb" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+
+      <!-- Numéros callouts -->
+      <!-- 1 panneau -->
+      <line x1="265" y1="105" x2="310" y2="80" stroke="#378add" stroke-width="1" stroke-dasharray="4,2"/>
+      <circle cx="315" cy="77" r="10" fill="#378add"/>
+      <text x="315" y="82" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">1</text>
+
+      <!-- 2 anneau lumineux -->
+      <line x1="265" y1="148" x2="310" y2="155" stroke="#378add" stroke-width="1" stroke-dasharray="4,2"/>
+      <circle cx="315" cy="155" r="10" fill="#378add"/>
+      <text x="315" y="160" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">2</text>
+
+      <!-- 3 corps -->
+      <line x1="248" y1="210" x2="310" y2="220" stroke="#378add" stroke-width="1" stroke-dasharray="4,2"/>
+      <circle cx="315" cy="220" r="10" fill="#378add"/>
+      <text x="315" y="225" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">3</text>
+
+      <!-- 4 bec verseur -->
+      <line x1="148" y1="260" x2="110" y2="245" stroke="#378add" stroke-width="1" stroke-dasharray="4,2"/>
+      <circle cx="103" cy="242" r="10" fill="#378add"/>
+      <text x="103" y="247" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">4</text>
+
+      <!-- 5 tasse -->
+      <line x1="170" y1="303" x2="110" y2="310" stroke="#378add" stroke-width="1" stroke-dasharray="4,2"/>
+      <circle cx="103" cy="310" r="10" fill="#378add"/>
+      <text x="103" y="315" text-anchor="middle" font-size="11" fill="#fff" font-weight="bold">5</text>
+
+      <!-- 6 base -->
+      <line x1="200" y1="300" x2="200" y2="318" stroke="#378add" stroke-width="1" stroke-dasharray="4,2"/>
+      <circle cx="200" cy="318" r="0" fill="none"/>
+
+      <!-- Légende dans SVG -->
+      <text x="360" y="50" font-size="11" fill="#333" font-weight="600">Composants</text>
+    </svg>
+
+    <div class="schema-legend">
+      <div class="schema-legend-item">
+        <span class="num">1</span>
+        <p><strong>Panneau tactile circulaire</strong> — interface de commande et capteur palmaire infrarouge</p>
+      </div>
+      <div class="schema-legend-item">
+        <span class="num">2</span>
+        <p><strong>Anneau lumineux LED</strong> — bleu clignotant : infusion en cours ; bleu fixe : café prêt ; rouge : erreur</p>
+      </div>
+      <div class="schema-legend-item">
+        <span class="num">3</span>
+        <p><strong>Corps principal</strong> — contient la pompe, le groupe chauffant et le réservoir</p>
+      </div>
+      <div class="schema-legend-item">
+        <span class="num">4</span>
+        <p><strong>Bec verseur</strong> — distribue le café dans la tasse</p>
+      </div>
+      <div class="schema-legend-item">
+        <span class="num">5</span>
+        <p><strong>Zone tasse</strong> — plateau chauffant avec capteur infrarouge de détection</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARACTÉRISTIQUES -->
+  <div class="feature-grid">
+    <div class="feature-card">
+      <div class="flabel">Reconnaissance</div>
+      <p>Empreinte palmaire infrarouge — identification en moins de 2 secondes</p>
+    </div>
+    <div class="feature-card">
+      <div class="flabel">Profils</div>
+      <p>Jusqu'à 8 utilisateurs avec préférences mémorisées</p>
+    </div>
+    <div class="feature-card">
+      <div class="flabel">Boissons</div>
+      <p>Espresso, lungo, americano, café allongé</p>
+    </div>
+    <div class="feature-card">
+      <div class="flabel">Volume</div>
+      <p>De 50 ml à 300 ml selon le profil</p>
+    </div>
+    <div class="feature-card">
+      <div class="flabel">Température</div>
+      <p>Réglable de 80 °C à 90 °C</p>
+    </div>
+    <div class="feature-card">
+      <div class="flabel">Arrêt auto</div>
+      <p>Détection infrarouge du retrait de la tasse</p>
+    </div>
+  </div>
+
+  <!-- GALERIE PHOTOS -->
+  <div class="gallery">
+    <img src="https://www.yankodesign.com/images/design_news/2012/10/13/memory_coffee3.jpg" alt="Memory Coffee Machine vue 3" onerror="this.style.display='none'">
+    <img src="https://www.yankodesign.com/images/design_news/2012/10/13/memory_coffee4.jpg" alt="Memory Coffee Machine vue 4" onerror="this.style.display='none'">
+    <img src="https://www.yankodesign.com/images/design_news/2012/10/13/memory_coffee5.jpg" alt="Memory Coffee Machine vue 5" onerror="this.style.display='none'">
+  </div>
+</div>
+
+<!-- I. SÉCURITÉ -->
+<div class="section" id="s1">
+  <p class="section-label">Section I</p>
+  <h2 class="section-title">Consignes de sécurité</h2>
+  <div class="dbox">Lire attentivement ces consignes avant toute utilisation. Le non-respect peut entraîner des blessures ou endommager l'appareil de façon irréversible.</div>
+
+  <p class="sub-h">Danger électrique</p>
+  <div class="safety-grid">
+    <div class="safety-item s-red">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1L1 14h14L8 1z" fill="none" stroke="#e24b4a" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="8" fill="#e24b4a">!</text></svg>
+      Ne pas mettre l'appareil dans l'eau
+    </div>
+    <div class="safety-item s-red">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1L1 14h14L8 1z" fill="none" stroke="#e24b4a" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="8" fill="#e24b4a">!</text></svg>
+      Ne pas utiliser près d'une source d'eau
+    </div>
+    <div class="safety-item s-red">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1L1 14h14L8 1z" fill="none" stroke="#e24b4a" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="8" fill="#e24b4a">!</text></svg>
+      Ne pas utiliser l'appareil si défectueux
+    </div>
+    <div class="safety-item s-red">
+      <svg width="16" height="16" viewBox="0 0 16 16"><path d="M8 1L1 14h14L8 1z" fill="none" stroke="#e24b4a" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="8" fill="#e24b4a">!</text></svg>
+      Ne pas nettoyer lorsque la machine est branchée
+    </div>
+  </div>
+
+  <p class="sub-h">Risques de brûlure</p>
+  <div class="safety-grid">
+    <div class="safety-item s-amber">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#ba7517" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#ba7517">!</text></svg>
+      Ne pas toucher les zones chaudes de l'appareil lorsqu'il est en fonctionnement
+    </div>
+    <div class="safety-item s-amber">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#ba7517" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#ba7517">!</text></svg>
+      Ne pas laisser la machine fonctionner sans surveillance
+    </div>
+  </div>
+
+  <p class="sub-h">Utilisation correcte</p>
+  <div class="safety-grid">
+    <div class="safety-item s-blue">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#1a6fc4" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#1a6fc4">i</text></svg>
+      Ne mettre que de l'eau potable dans le réservoir
+    </div>
+    <div class="safety-item s-blue">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#1a6fc4" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#1a6fc4">i</text></svg>
+      Utiliser seulement des produits destinés à cette machine
+    </div>
+    <div class="safety-item s-blue">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#1a6fc4" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#1a6fc4">i</text></svg>
+      Ne pas utiliser d'accessoires non certifiés Electrolux
+    </div>
+    <div class="safety-item s-blue">
+      <svg width="16" height="16" viewBox="0 0 16 16"><circle cx="8" cy="8" r="7" fill="none" stroke="#1a6fc4" stroke-width="1.5"/><text x="8" y="12" text-anchor="middle" font-size="9" fill="#1a6fc4">i</text></svg>
+      Tenir hors de portée des enfants
+    </div>
+  </div>
+</div>
+
+<!-- II. INSTALLATION -->
+<div class="section" id="s2">
+  <p class="section-label">Section II</p>
+  <h2 class="section-title">Installation et mise en service</h2>
+
+  <p class="sub-h">Contenu de la boîte</p>
+  <ul class="blist">
+    <li>La Memory Coffee Machine (corps principal)</li>
+    <li>Le câble d'alimentation secteur</li>
+    <li>Le réservoir d'eau amovible</li>
+    <li>La tasse de démarrage Electrolux</li>
+    <li>Le présent manuel utilisateur</li>
+  </ul>
+
+  <p class="sub-h">Procédure d'installation</p>
+  <div class="steps">
+    <div class="step"><p>Après déballage, vérifier l'intégrité des pièces pour détecter d'éventuels dégâts dus au transport et vérifier le bon contenu de tous les éléments.</p></div>
+    <div class="step"><p>Poser l'appareil sur une <strong>surface plane, solide et résistante à l'eau</strong>.</p></div>
+    <div class="step"><p>Brancher le câble d'alimentation secteur sur une prise de courant à contact de protection installée dans les règles.</p></div>
+    <div class="step"><p>Remplir le réservoir avec de l'eau potable jusqu'au niveau maximal indiqué.</p></div>
+    <div class="step"><p>Après chaque branchement, attendre environ <strong>5 secondes</strong> avant toute opération.</p></div>
+  </div>
+</div>
+
+<!-- III. UTILISATION -->
+<div class="section" id="s3">
+  <p class="section-label">Section III</p>
+  <h2 class="section-title">Utilisation normale</h2>
+
+  <div class="steps">
+    <div class="step"><p>Placer une tasse sous le verseur de café.</p></div>
+    <div class="step"><p>Poser la paume de la main à plat sur le <strong>panneau tactile supérieur</strong>.</p></div>
+    <div class="step"><p>Attendre la reconnaissance de l'empreinte palmaire (<strong>moins de 2 secondes</strong>).</p></div>
+    <div class="step"><p>Confirmer d'un tapotement ou attendre <strong>3 secondes</strong> pour validation automatique.</p></div>
+    <div class="step"><p>Attendre la fin du cycle d'infusion — <strong>anneau lumineux bleu clignotant</strong>.</p></div>
+    <div class="step"><p>Retirer la tasse une fois le café prêt — <strong>anneau lumineux fixe</strong>.</p></div>
+  </div>
+  <div class="wbox">En cas de profil non reconnu, sélectionner <strong>« Café standard »</strong> sur l'écran pour préparer un café avec les réglages par défaut.</div>
+</div>
+
+<!-- IV. PROGRAMMATION -->
+<div class="section" id="s4">
+  <p class="section-label">Section IV</p>
+  <h2 class="section-title">Programmation et personnalisation</h2>
+
+  <p class="sub-h">Créer un profil</p>
+  <div class="steps">
+    <div class="step"><p>Appuyer sur l'icône <strong>« Profils »</strong> depuis l'écran d'accueil.</p></div>
+    <div class="step"><p>Sélectionner <strong>« Ajouter un profil »</strong>.</p></div>
+    <div class="step"><p>Poser la paume sur le panneau pour enregistrer l'empreinte.</p></div>
+    <div class="step"><p>Entrer son prénom via le clavier tactile.</p></div>
+    <div class="step"><p>Configurer ses préférences ci-dessous, puis appuyer sur <strong>« Enregistrer »</strong>.</p></div>
+  </div>
+
+  <p class="sub-h">Options de personnalisation</p>
+  <div class="settings-grid">
+    <div class="setting-box">
+      <div class="slabel">Type de café</div>
+      <div class="tags"><span class="tag default">Espresso</span><span class="tag">Lungo</span><span class="tag">Americano</span><span class="tag">Allongé</span></div>
+    </div>
+    <div class="setting-box">
+      <div class="slabel">Intensité</div>
+      <div class="tags"><span class="tag">Légère</span><span class="tag default">Normale</span><span class="tag">Forte</span></div>
+    </div>
+    <div class="setting-box">
+      <div class="slabel">Température</div>
+      <div class="tags"><span class="tag default">80 °C</span><span class="tag">85 °C</span><span class="tag">90 °C</span></div>
+    </div>
+    <div class="setting-box">
+      <div class="slabel">Volume</div>
+      <div class="tags"><span class="tag">50 ml</span><span class="tag default">150 ml</span><span class="tag">300 ml</span></div>
+    </div>
+  </div>
+
+  <p class="sub-h">Programmation horaire</p>
+  <ul class="blist">
+    <li>Aller dans <strong>Paramètres &gt; Programmation</strong></li>
+    <li>Activer le mode programmation et sélectionner l'heure souhaitée</li>
+    <li>S'assurer que le réservoir est plein et qu'une tasse est en place avant l'heure programmée</li>
+  </ul>
+</div>
+
+<!-- V. ENTRETIEN -->
+<div class="section" id="s5">
+  <p class="section-label">Section V</p>
+  <h2 class="section-title">Entretien et nettoyage</h2>
+  <div class="dbox">Toujours débrancher la machine avant tout nettoyage.</div>
+
+  <p class="sub-h">Nettoyage quotidien</p>
+  <ul class="blist">
+    <li>Essuyer l'extérieur avec un chiffon doux et humide après chaque utilisation</li>
+    <li>Rincer le réservoir d'eau à l'eau claire chaque jour</li>
+    <li>Nettoyer le plateau de la tasse à l'eau savonneuse chaque semaine</li>
+    <li>Ne jamais nettoyer l'appareil lorsqu'il est branché</li>
+  </ul>
+
+  <p class="sub-h">Détartrage</p>
+  <ul class="blist">
+    <li>Détartrer toutes les 4 à 6 semaines ou dès que l'indicateur s'allume</li>
+    <li>Utiliser uniquement la solution de détartrage certifiée Electrolux</li>
+    <li>Ne pas utiliser de vinaigre ou de produits non homologués</li>
+    <li>Aller dans <strong>Paramètres &gt; Entretien &gt; Détartrage</strong> puis appuyer sur « Démarrer »</li>
+    <li>Ne pas interrompre le cycle (environ 30 minutes)</li>
+    <li>Effectuer deux cycles de rinçage à l'eau claire après chaque détartrage</li>
+  </ul>
+</div>
+
+<!-- VI. DÉPANNAGE -->
+<div class="section" id="s6">
+  <p class="section-label">Section VI</p>
+  <h2 class="section-title">Résolution des problèmes</h2>
+  <table class="ttable">
+    <thead>
+      <tr><th>Problème</th><th>Cause possible</th><th>Solution</th></tr>
+    </thead>
+    <tbody>
+      <tr><td class="prob">La machine ne démarre pas</td><td>Pas d'alimentation</td><td class="sol">Vérifier le câble et la prise secteur</td></tr>
+      <tr><td class="prob">Paume non reconnue</td><td>Main humide ou sale</td><td class="sol">Sécher et nettoyer la main, réessayer</td></tr>
+      <tr><td class="prob">Café trop froid</td><td>Température trop basse</td><td class="sol">Modifier la température dans le profil</td></tr>
+      <tr><td class="prob">Café coule très lentement</td><td>Entartrage</td><td class="sol">Effectuer un cycle de détartrage</td></tr>
+      <tr><td class="prob">L'écran ne répond pas</td><td>Problème logiciel</td><td class="sol">Débrancher 30 secondes puis rebrancher</td></tr>
+      <tr><td class="prob">Voyant rouge clignotant</td><td>Réservoir vide ou mal inséré</td><td class="sol">Remplir ou réinsérer le réservoir</td></tr>
+      <tr><td class="prob">Odeur de brûlé</td><td>Résidu sur le plateau</td><td class="sol">Nettoyer le plateau chauffant</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- VII. SAV -->
+<div class="section" id="s7">
+  <p class="section-label">Section VII</p>
+  <h2 class="section-title">Service après-vente</h2>
+  <div class="wbox">Ne jamais ouvrir l'appareil soi-même — cela annule la garantie et présente des risques électriques graves. Contacter uniquement un technicien agréé Electrolux.</div>
+  <ul class="blist">
+    <li>Munir de la référence produit et de la preuve d'achat avant tout contact</li>
+  </ul>
+  <div class="contact-card">
+    <div class="cline"><span class="clbl">Téléphone</span><span>0 892 230 000 (0,35 €/min)</span></div>
+    <div class="cline"><span class="clbl">Horaires</span><span>Lundi – Vendredi, 9h00 – 18h00</span></div>
+    <div class="cline"><span class="clbl">Site web</span><a href="https://www.electrolux.fr/service">www.electrolux.fr/service</a></div>
+  </div>
+</div>
+
+<!-- VIII. GARANTIE -->
+<div class="section" id="s8">
+  <p class="section-label">Section VIII</p>
+  <h2 class="section-title">Garantie</h2>
+  <ul class="blist">
+    <li>Garantie fabricant de <strong>2 ans</strong> à compter de la date d'achat</li>
+    <li>Couvre les défauts de matériau ou de fabrication en utilisation normale</li>
+    <li>Non couverts : mauvaise utilisation, usure normale, accessoires non certifiés, réparations par des tiers</li>
+    <li>Conserver la preuve d'achat — indispensable pour toute demande</li>
+  </ul>
+</div>
+
+<footer>
+  <p><span>Memory Coffee Machine</span> &mdash; Design WenYao Cai &mdash; Electrolux Design Lab &copy; 2012</p>
+  <p style="margin-top:.4rem;">Manuel Utilisateur v1.0 &mdash; Tous droits réservés</p>
+</footer>
+
+</div><!-- /.main -->
+
+<script>
+const links = document.querySelectorAll('.sidebar nav a');
+const sections = document.querySelectorAll('[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 80) current = s.id;
+  });
+  links.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+</script>
+</body>
+</html>
